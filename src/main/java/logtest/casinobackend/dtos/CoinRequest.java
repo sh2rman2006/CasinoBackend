@@ -10,5 +10,5 @@ public class CoinRequest {
     @NotNull
     private int choose;
     @NotNull
-    private BigDecimal betAmount;
+    private String betAmount;
 }
