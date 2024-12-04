@@ -39,7 +39,7 @@ public class CoinController {
             BigDecimal balance = authUser.getBalance();
             BigDecimal betAmount;
 
-            if (balance.compareTo(BigDecimal.ZERO) == 0) {
+            if (balance.compareTo(BigDecimal.ZERO) < 0) {
                 authUser.setAccountNonLocked(false);
                 authUserRepository.save(authUser);
             }
