@@ -52,9 +52,6 @@ public class CoinController {
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The bid amount was entered incorrectly");
             }
-            // вывод запроса
-            System.out.println(betAmount);
-            System.out.println(coinRequest.getChoose());
 
             if (balance.compareTo(betAmount) >= 0 && betAmount.compareTo(BigDecimal.ZERO) > 0) {
                 GameStory gameStory = GameStory
