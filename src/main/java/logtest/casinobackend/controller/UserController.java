@@ -13,13 +13,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -70,4 +68,12 @@ public class UserController {
         }
     }
 
+    @GetMapping("/balance")
+    public ResponseEntity<?> getBalance(Authentication authentication) {
+        Optional<AuthUser> user = authUserRepository.findByUsername(authentication.getName());
+        if (user.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(user.get().getBalance());
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
 }
