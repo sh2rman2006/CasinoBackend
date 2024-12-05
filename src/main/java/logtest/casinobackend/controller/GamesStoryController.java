@@ -36,6 +36,9 @@ public class GamesStoryController {
     @GetMapping("/getByGameName/{gameName}")
     public ResponseEntity<?> getByGameName(Authentication auth, @PathVariable String gameName) {
         Optional<AuthUser> authUser = authUserRepository.findByUsername(auth.getName());
+        if (gameName == null || gameName.isEmpty()) {
+            return ResponseEntity.badRequest().body("Game name cannot be null or empty");
+        }
         if (authUser.isPresent()) {
             List<GameStory> gameStories = gameStoryRepository
                     .findGameStoriesByGameNameAndAuthUserId(gameName, authUser.get().getId());
