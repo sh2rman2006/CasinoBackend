@@ -1,6 +1,5 @@
 package logtest.casinobackend.controller;
 
-import logtest.casinobackend.dtos.GetByGameNameRequest;
 import logtest.casinobackend.model.AuthUser;
 import logtest.casinobackend.model.GameStory;
 import logtest.casinobackend.repository.AuthUserRepository;
@@ -34,13 +33,12 @@ public class GamesStoryController {
     }
 
 
-    @GetMapping("/getByGameName")
-    public ResponseEntity<?> getByGameName(Authentication auth, @RequestBody GetByGameNameRequest request) {
-        System.out.println(request);
+    @GetMapping("/getByGameName/{gameName}")
+    public ResponseEntity<?> getByGameName(Authentication auth, @PathVariable String gameName) {
         Optional<AuthUser> authUser = authUserRepository.findByUsername(auth.getName());
         if (authUser.isPresent()) {
             List<GameStory> gameStories = gameStoryRepository
-                    .findGameStoriesByGameNameAndAuthUserId(request.getGameName(), authUser.get().getId());
+                    .findGameStoriesByGameNameAndAuthUserId(gameName, authUser.get().getId());
             if (!gameStories.isEmpty()) {
                 return ResponseEntity.ok(gameStories);
             }
