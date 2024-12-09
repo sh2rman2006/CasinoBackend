@@ -67,7 +67,7 @@ public class CoinController {
                 int randomNum = rand.nextInt(2) + 1;
 
                 if (randomNum == coinRequest.getChoose()) {
-                    authUser.setBalance(balance.add(betAmount.multiply(new BigDecimal("1.95"))));
+                    authUser.setBalance(balance.add(betAmount.multiply(new BigDecimal("1.95"))).subtract(betAmount));
                     authUserRepository.save(authUser);
                     gameStory.setWinner(true);
                     gameStory.setWinAmount(betAmount.multiply(new BigDecimal("1.95")));
