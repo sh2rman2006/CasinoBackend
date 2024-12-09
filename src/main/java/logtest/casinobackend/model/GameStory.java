@@ -32,6 +32,8 @@ public class GameStory {
     private BigDecimal rateCoefficient; // коэффициент ставки
     @NotNull
     private boolean isWinner;
+    @NotNull
+    private String coinSide;
     @DBRef
     @JsonIgnore
     private AuthUser authUser; // ссылка на пользователя

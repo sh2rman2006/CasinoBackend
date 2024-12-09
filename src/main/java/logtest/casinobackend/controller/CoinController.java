@@ -71,6 +71,7 @@ public class CoinController {
                     authUserRepository.save(authUser);
                     gameStory.setWinner(true);
                     gameStory.setWinAmount(betAmount.multiply(new BigDecimal("1.95")));
+                    gameStory.setCoinSide(coinRequest.getChoose() == 1 ? "Орёл" : "Решка");
                     gameStoryRepository.save(gameStory);
                     return ResponseEntity.ok(Map.of(
                             "isWinner", true,
@@ -81,6 +82,7 @@ public class CoinController {
                     authUserRepository.save(authUser);
                     gameStory.setWinner(false);
                     gameStory.setWinAmount(betAmount.negate());
+                    gameStory.setCoinSide(coinRequest.getChoose() == 1 ? "Орёл" : "Решка");
                     gameStoryRepository.save(gameStory);
                     return ResponseEntity.ok(Map.of(
                             "isWinner", false,
