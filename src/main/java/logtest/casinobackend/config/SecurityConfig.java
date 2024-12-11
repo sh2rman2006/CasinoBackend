@@ -48,6 +48,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(request -> request
                 .requestMatchers("/csrf").permitAll()
                 .requestMatchers("/user/register", "/user/login").permitAll()
+                .requestMatchers("/user/reset").permitAll()
                 .anyRequest().authenticated()
         );
 

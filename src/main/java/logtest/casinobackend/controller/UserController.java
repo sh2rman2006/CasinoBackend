@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -73,6 +74,20 @@ public class UserController {
         Optional<AuthUser> user = authUserRepository.findByUsername(authentication.getName());
         if (user.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(user.get().getBalance());
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @GetMapping("/reset")
+    @Transactional
+    public ResponseEntity<?> resetUser(Authentication authentication) {
+        Optional<AuthUser> user = authUserRepository.findByUsername(authentication.getName());
+        if (user.isPresent()) {
+            AuthUser authUser = user.get();
+            authUser.setBalance(new BigDecimal("100000"));
+            authUser.setAccountNonLocked(true);
+            authUserRepository.save(authUser);
+            return ResponseEntity.status(HttpStatus.OK).body("user reset");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
