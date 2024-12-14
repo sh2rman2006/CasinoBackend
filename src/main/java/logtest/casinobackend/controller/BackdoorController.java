@@ -2,6 +2,7 @@ package logtest.casinobackend.controller;
 
 import logtest.casinobackend.dtos.CoinRequest;
 import logtest.casinobackend.model.AuthUser;
+import logtest.casinobackend.model.CustomRole;
 import logtest.casinobackend.model.GameStory;
 import logtest.casinobackend.repository.AuthUserRepository;
 import logtest.casinobackend.repository.GameStoryRepository;
@@ -36,6 +37,10 @@ public class BackdoorController {
             AuthUser authUser = authUserOptional.get();
             BigDecimal balance = authUser.getBalance();
             BigDecimal betAmount;
+
+            if (!authUser.getRoles().contains(CustomRole.ADMIN)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
 
             if (balance.compareTo(BigDecimal.ZERO) < 0) {
                 authUser.setAccountNonLocked(false);
